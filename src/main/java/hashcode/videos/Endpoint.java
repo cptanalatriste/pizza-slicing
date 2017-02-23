@@ -9,6 +9,10 @@ public class Endpoint {
 	private int cacheConnections;
 	private int[] cacheLatency;
 
+	public Endpoint(int numberOfCaches) {
+		this.cacheLatency = new int[numberOfCaches];
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -94,6 +94,9 @@ public class VideoCaching implements IProblem {
 
 			int endpointSectionStart = 2;
 			int endpointIdentifier = 0;
+			int currentCacheLatency = -1;
+			int cacheCounter = 0;
+			Endpoint currentEndpoint = null;
 
 			int requestSectionStart = -1;
 			int requestIdentifier = 0;
@@ -121,20 +124,37 @@ public class VideoCaching implements IProblem {
 					}
 				} else if (lineCounter == endpointSectionStart) {
 					String[] endpointInfo = line.split("\\s+");
-					Endpoint endpoint = new Endpoint();
-					endpoint.setId(endpointIdentifier);
-					endpoint.setDatacenterLatency(Integer.parseInt(endpointInfo[0]));
-					endpoint.setCacheConnections(Integer.parseInt(endpointInfo[1]));
+					currentEndpoint = new Endpoint(this.getNumberOfCaches());
+					currentEndpoint.setId(endpointIdentifier);
+					currentEndpoint.setDatacenterLatency(Integer.parseInt(endpointInfo[0]));
+					currentEndpoint.setCacheConnections(Integer.parseInt(endpointInfo[1]));
 
-					endpoints.add(endpoint);
+					endpoints.add(currentEndpoint);
 
 					if (endpoints.size() < this.getNumberOfEndpoints()) {
 						endpointIdentifier += 1;
-						endpointSectionStart += endpoint.getCacheConnections() + 1;
+						endpointSectionStart += currentEndpoint.getCacheConnections() + 1;
+						currentCacheLatency = lineCounter + 1;
 					} else {
-						requestSectionStart = endpointSectionStart + endpoint.getCacheConnections() + 1;
+						requestSectionStart = endpointSectionStart + currentEndpoint.getCacheConnections() + 1;
 					}
+				} else if (currentCacheLatency > 0 && lineCounter == currentCacheLatency) {
+					String[] cacheInfo = line.split("\\s+");
+					int cacheId = Integer.parseInt(cacheInfo[0]);
+					int cacheLatency = Integer.parseInt(cacheInfo[1]);
+
+					currentEndpoint.getCacheLatency()[cacheId] = cacheLatency;
+					cacheCounter += 1;
+
+					if (currentEndpoint.getCacheConnections() == cacheCounter) {
+						currentCacheLatency = -1;
+						cacheCounter = 0;
+					} else {
+						currentCacheLatency += 1;
+					}
+
 				} else if (requestSectionStart >= 0 && lineCounter >= requestSectionStart) {
+
 					String[] requestInfo = line.split("\\s+");
 
 					System.out.println("requestSectionStart=" + requestSectionStart);
