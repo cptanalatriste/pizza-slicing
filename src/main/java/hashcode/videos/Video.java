@@ -3,7 +3,7 @@ package hashcode.videos;
 public class Video implements Comparable {
 	private int id;
 	private int size;
-	private int totalRequests=0;
+	private int totalRequests = 0;
 
 	public int getId() {
 		return id;
@@ -20,12 +20,12 @@ public class Video implements Comparable {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	
-	public void setRequest(int req){
+
+	public void setRequest(int req) {
 		this.totalRequests = req;
 	}
-	
-	public int getRequests(){
+
+	public int getRequests() {
 		return this.totalRequests;
 	}
 
@@ -36,8 +36,9 @@ public class Video implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		Video c = (Video)o;
-		return c.compareTo(this.getRequests());
+		Video c = (Video) o;
+
+		return Integer.compare(c.getRequests(), this.getRequests());
 	}
 
 }

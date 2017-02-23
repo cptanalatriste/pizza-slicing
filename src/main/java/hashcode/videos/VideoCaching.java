@@ -187,7 +187,7 @@ public class VideoCaching implements IProblem {
 
 	@Override
 	public int getVideoSize(int videoId) {
-		throw new RuntimeException("Not implemented");
+		return this.videos.get(videoId).getSize();
 	}
 
 }
