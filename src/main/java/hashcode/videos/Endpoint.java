@@ -2,6 +2,8 @@ package hashcode.videos;
 
 import java.util.Arrays;
 
+import hashcode.mainevent.IProblem;
+
 public class Endpoint {
 
 	private int id;
@@ -43,6 +45,19 @@ public class Endpoint {
 
 	public void setCacheLatency(int[] cacheLatency) {
 		this.cacheLatency = cacheLatency;
+	}
+	
+	public int potentialSavings(IProblem problem){
+		int dataCenterLatency = this.getDatacenterLatency();
+		int currentBest = dataCenterLatency;
+		for(int i=0; i<getCacheLatency().length; i++){
+			if(getCacheLatency()[i]!=0){
+				if(currentBest > getCacheLatency()[i]){
+					currentBest= getCacheLatency()[i];
+				}
+			}
+		}
+		return problem.getTotalNumberRequest() * (dataCenterLatency-currentBest);
 	}
 
 	@Override

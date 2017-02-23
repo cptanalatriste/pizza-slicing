@@ -10,7 +10,7 @@ import hashcode.mainevent.IStrategy;
 public class Strategy implements IStrategy {
 
 	@Override
-	public ISolution getSolution(IProblem problem) {
+	public ISolution getSolution(final IProblem problem) {
 		VideoSolution toReturn = new VideoSolution();
 
 		for(Video vid : problem.getVideos()){

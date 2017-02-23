@@ -18,4 +18,5 @@ public interface IProblem {
 	public List<Video> getVideos();
 	public List<VideoRequest> getRequestDescriptions();
 	public int getNumberOfCaches();
+	public int getTotalNumberRequest();
 }
