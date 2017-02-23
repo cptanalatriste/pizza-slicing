@@ -105,8 +105,6 @@ public class VideoCaching implements IProblem {
 				if (lineCounter == 0) {
 					String[] characters = line.split("\\s+");
 
-					System.out.println("characters=" + characters);
-
 					this.setNumberOfVideos(Integer.parseInt(characters[0]));
 					this.setNumberOfEndpoints(Integer.parseInt(characters[1]));
 					this.setNumberOfRequests(Integer.parseInt(characters[2]));
@@ -157,10 +155,6 @@ public class VideoCaching implements IProblem {
 
 					String[] requestInfo = line.split("\\s+");
 
-					System.out.println("requestSectionStart=" + requestSectionStart);
-					System.out.println("line=" + line);
-					System.out.println("requestInfo=" + requestInfo);
-
 					VideoRequest request = new VideoRequest();
 					request.setId(requestIdentifier);
 					request.setVideo(this.getVideos().get(Integer.parseInt(requestInfo[0])));
@@ -187,7 +181,13 @@ public class VideoCaching implements IProblem {
 
 	@Override
 	public int getVideoSize(int videoId) {
-		return this.videos.get(videoId).getSize();
+		for (Video video : this.videos) {
+			if (video.getId() == videoId) {
+				return video.getSize();
+			}
+		}
+
+		return -1;
 	}
 
 }

@@ -23,11 +23,8 @@ public class Main {
 			ClassLoader classLoader = Main.class.getClassLoader();
 			problem.readFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName).getFile()));
 
-			System.out.println("problem=" + problem);
-
 			IStrategy strategy = new Strategy();
 			ISolution solution = strategy.getSolution(problem);
-			System.out.println("solution=" + solution);
 
 			AFitnessFunction fitnessFunction = new FitnessFunction(new Validator());
 			Optional<Double> fitness = fitnessFunction.getFitness(problem, solution);
@@ -35,7 +32,7 @@ public class Main {
 
 			if (fitness.isPresent()) {
 				System.out.println("Fitness :" + fitness.get());
-				solution.toFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName + "_result").getFile()));
+				solution.toFile(new File(fileName + "_result"));
 			} else {
 				System.out.println("Solution is not feasible");
 			}
