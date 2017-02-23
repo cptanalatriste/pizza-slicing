@@ -65,7 +65,6 @@ public class Pizza implements IProblem {
 
 	@Override
 	public void readFile(File inputFile) throws FileNotFoundException, IOException {
-		ClassLoader classLoader = getClass().getClassLoader();
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
 			String line;
