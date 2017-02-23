@@ -91,6 +91,13 @@ public class VideoCaching implements IProblem {
 		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
 			String line;
 			int lineCounter = 0;
+
+			int endpointSectionStart = 2;
+			int endpointIdentifier = 0;
+
+			int requestSectionStart = -1;
+			int requestIdentifier = 0;
+
 			while ((line = reader.readLine()) != null) {
 				if (lineCounter == 0) {
 					String[] characters = line.split("\\s+");
@@ -112,6 +119,26 @@ public class VideoCaching implements IProblem {
 
 						this.videos.add(video);
 					}
+				} else if (lineCounter == endpointSectionStart) {
+					String[] endpointInfo = line.split("\\s+");
+					Endpoint endpoint = new Endpoint();
+					endpoint.setId(endpointIdentifier);
+					endpoint.setDatacenterLatency(Integer.parseInt(endpointInfo[0]));
+					endpoint.setCacheConnections(Integer.parseInt(endpointInfo[1]));
+
+					endpoints.add(endpoint);
+
+					if (endpoints.size() < this.getNumberOfEndpoints()) {
+						endpointIdentifier += 1;
+						endpointSectionStart += endpoint.getCacheConnections() + 1;
+					} else {
+						requestSectionStart = endpointSectionStart + endpoint.getCacheConnections() + 1;
+					}
+				} else if (lineCounter >= requestSectionStart) {
+					String[] requestInfo = line.split("\\s+");
+
+					VideoRequest request = new VideoRequest();
+					request.setId(requestIdentifier);
 
 				}
 

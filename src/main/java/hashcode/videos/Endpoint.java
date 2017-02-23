@@ -1,5 +1,7 @@
 package hashcode.videos;
 
+import java.util.Arrays;
+
 public class Endpoint {
 
 	private int id;
@@ -37,6 +39,12 @@ public class Endpoint {
 
 	public void setCacheLatency(int[] cacheLatency) {
 		this.cacheLatency = cacheLatency;
+	}
+
+	@Override
+	public String toString() {
+		return "Endpoint [id=" + id + ", datacenterLatency=" + datacenterLatency + ", cacheConnections="
+				+ cacheConnections + ", cacheLatency=" + Arrays.toString(cacheLatency) + "]";
 	}
 
 }

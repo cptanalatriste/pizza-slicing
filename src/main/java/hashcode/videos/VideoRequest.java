@@ -2,7 +2,7 @@ package hashcode.videos;
 
 public class VideoRequest {
 	private int id;
-	private Video instance;
+	private Video video;
 	private Endpoint endpoint;
 	private int quantity;
 
@@ -14,12 +14,12 @@ public class VideoRequest {
 		this.id = id;
 	}
 
-	public Video getInstance() {
-		return instance;
+	public Video getVideo() {
+		return video;
 	}
 
-	public void setInstance(Video instance) {
-		this.instance = instance;
+	public void setVideo(Video instance) {
+		this.video = instance;
 	}
 
 	public Endpoint getEndpoint() {
@@ -36,6 +36,12 @@ public class VideoRequest {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "VideoRequest [id=" + id + ", video=" + video + ", endpoint=" + endpoint + ", quantity=" + quantity
+				+ "]";
 	}
 
 }
