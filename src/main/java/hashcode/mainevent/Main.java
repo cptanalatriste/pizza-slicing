@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
+import hashcode.videos.FitnessFunction;
+import hashcode.videos.Strategy;
+import hashcode.videos.Validator;
 import hashcode.videos.VideoCaching;
 
 public class Main {
@@ -22,7 +25,7 @@ public class Main {
 
 			System.out.println("problem=" + problem);
 
-			IStrategy strategy = new SlicingBuilder(); //TODO
+			IStrategy strategy = new Strategy(); 
 			ISolution solution = strategy.getSolution(problem);
 
 			AFitnessFunction fitnessFunction = new FitnessFunction(new Validator());
@@ -30,7 +33,7 @@ public class Main {
 
 			if (fitness.isPresent()) {
 				System.out.println("Fitness :" + fitness.get());
-				solution.toFile(new File(fileName + "_result"));
+				solution.toFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName + "_result").getFile()));
 			} else {
 				System.out.println("Solution is not feasible");
 			}
