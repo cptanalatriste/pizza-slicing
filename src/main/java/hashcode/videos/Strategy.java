@@ -1,6 +1,7 @@
 package hashcode.videos;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import hashcode.mainevent.IProblem;
@@ -13,23 +14,29 @@ public class Strategy implements IStrategy {
 	public ISolution getSolution(final IProblem problem) {
 		VideoSolution toReturn = new VideoSolution();
 
-		for(Video vid : problem.getVideos()){
-			int sum =0;
-			for(VideoRequest req : problem.getRequestDescriptions()){
-				if(req.getVideo().getId() == vid.getId()){
+		for (Video vid : problem.getVideos()) {
+			int sum = 0;
+			for (VideoRequest req : problem.getRequestDescriptions()) {
+				if (req.getVideo().getId() == vid.getId()) {
 					sum += req.getQuantity();
 				}
 			}
 			vid.setRequest(sum);
 		}
-		
+
 		List<Video> vidList = problem.getVideos();
-		Collections.sort(vidList);
-		
-		for(int cacheID=0; cacheID<problem.getNumberOfCaches();cacheID++){
+		Collections.sort(vidList, new Comparator<Video>() {
+
+			@Override
+			public int compare(Video o1, Video o2) {
+				return Integer.compare(o2.getRequests(), o1.getRequests());
+			}
+		});
+
+		for (int cacheID = 0; cacheID < problem.getNumberOfCaches(); cacheID++) {
 			int capacity = problem.getCacheSize();
-			for(Video vid : vidList){
-				if(vid.getSize()<=capacity){
+			for (Video vid : vidList) {
+				if (vid.getSize() <= capacity) {
 					toReturn.addVideoToCacheServer(cacheID, vid.getId());
 					capacity -= vid.getSize();
 				} else {
@@ -37,7 +44,7 @@ public class Strategy implements IStrategy {
 				}
 			}
 		}
-		
+
 		return toReturn;
 	}
 

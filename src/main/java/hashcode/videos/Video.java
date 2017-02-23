@@ -1,6 +1,6 @@
 package hashcode.videos;
 
-public class Video implements Comparable {
+public class Video {
 	private int id;
 	private int size;
 	private int totalRequests = 0;
@@ -32,13 +32,6 @@ public class Video implements Comparable {
 	@Override
 	public String toString() {
 		return "Video [id=" + id + ", size=" + size + "]";
-	}
-
-	@Override
-	public int compareTo(Object o) {
-		Video c = (Video) o;
-
-		return Integer.compare(c.getRequests(), this.getRequests());
 	}
 
 }
