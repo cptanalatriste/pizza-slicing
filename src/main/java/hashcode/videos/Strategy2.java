@@ -56,7 +56,7 @@ public class Strategy2 implements IStrategy {
 				} else {
 					videosToAdd.add(v.getId());
 				}
-				break;
+			//	break;
 			}
 			
 		}
