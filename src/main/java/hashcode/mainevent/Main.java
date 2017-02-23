@@ -5,11 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
-import hashcode.pizza.Pizza;
-import hashcode.pizza.SlicingBuilder;
-import hashcode.pizza.SlicingScore;
-import hashcode.videos.FitnessFunction;
-import hashcode.videos.Validator;
 import hashcode.videos.VideoCaching;
 
 public class Main {
@@ -18,6 +13,8 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		for (String fileName : args) {
+
+			System.out.println("fileName=" + fileName);
 
 			IProblem problem = new VideoCaching();
 			ClassLoader classLoader = Main.class.getClassLoader();
