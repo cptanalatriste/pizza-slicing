@@ -8,6 +8,9 @@ import java.util.Optional;
 import hashcode.pizza.Pizza;
 import hashcode.pizza.SlicingBuilder;
 import hashcode.pizza.SlicingScore;
+import hashcode.videos.FitnessFunction;
+import hashcode.videos.Validator;
+import hashcode.videos.VideoCaching;
 
 public class Main {
 
@@ -16,16 +19,16 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		for (String fileName : args) {
 
-			IProblem problem = new Pizza();
+			IProblem problem = new VideoCaching();
 			ClassLoader classLoader = Main.class.getClassLoader();
 			problem.readFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName).getFile()));
 
 			System.out.println("problem=" + problem);
 
-			IStrategy strategy = new SlicingBuilder();
+			IStrategy strategy = new SlicingBuilder(); //TODO
 			ISolution solution = strategy.getSolution(problem);
 
-			AFitnessFunction fitnessFunction = new SlicingScore();
+			AFitnessFunction fitnessFunction = new FitnessFunction(new Validator());
 			Optional<Double> fitness = fitnessFunction.getFitness(problem, solution);
 
 			if (fitness.isPresent()) {
