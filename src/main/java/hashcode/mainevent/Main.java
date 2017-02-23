@@ -25,11 +25,13 @@ public class Main {
 
 			System.out.println("problem=" + problem);
 
-			IStrategy strategy = new Strategy(); 
+			IStrategy strategy = new Strategy();
 			ISolution solution = strategy.getSolution(problem);
+			System.out.println("solution=" + solution);
 
 			AFitnessFunction fitnessFunction = new FitnessFunction(new Validator());
 			Optional<Double> fitness = fitnessFunction.getFitness(problem, solution);
+			System.out.println("fitness=" + fitness);
 
 			if (fitness.isPresent()) {
 				System.out.println("Fitness :" + fitness.get());

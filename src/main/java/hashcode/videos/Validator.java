@@ -9,12 +9,12 @@ public class Validator implements IValidator {
 	@Override
 	public boolean isValid(IProblem problem, ISolution solution) {
 		int maxCacheSize = problem.getCacheSize();
-		
-		for(int i=0; i < solution.getNumCacheServers(); i++){
-			int sizeUsed =0;
-			for(int vid : solution.getVideosForCacheServer(i)){
-				sizeUsed+=problem.getVideoSize(vid);
-				if(sizeUsed > maxCacheSize){
+
+		for (int i = 0; i < solution.getNumCacheServers(); i++) {
+			int sizeUsed = 0;
+			for (int vid : solution.getVideosForCacheServer(i)) {
+				sizeUsed += problem.getVideoSize(vid);
+				if (sizeUsed > maxCacheSize) {
 					return false;
 				}
 			}

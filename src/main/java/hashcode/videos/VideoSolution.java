@@ -13,31 +13,31 @@ import hashcode.mainevent.ISolution;
 public class VideoSolution implements ISolution {
 	final private Map<Integer, Set<Integer>> cacheServerData = new HashMap<Integer, Set<Integer>>();
 
-	public VideoSolution(){
-		//Starts off empty.
+	public VideoSolution() {
+		// Starts off empty.
 	}
-	
-	public void addVideoToCacheServer(int serverId, int videoId){
-		assert(serverId>=0);
-		assert(videoId>=0);
-		if(!cacheServerData.containsKey(serverId)){
+
+	public void addVideoToCacheServer(int serverId, int videoId) {
+		assert (serverId >= 0);
+		assert (videoId >= 0);
+		if (!cacheServerData.containsKey(serverId)) {
 			cacheServerData.put(serverId, new HashSet<Integer>());
 		}
-		
+
 		cacheServerData.get(serverId).add(videoId);
 	}
-	
+
 	@Override
 	public void toFile(File toWrite) throws FileNotFoundException {
 		String toBeWritten = Integer.toString(this.getNumCacheServers());
-		for(int i=0; i<this.getNumCacheServers(); i++){
+		for (int i = 0; i < this.getNumCacheServers(); i++) {
 			toBeWritten += System.lineSeparator();
 			toBeWritten += i;
-			for(int vid : this.cacheServerData.get(i)){
-				toBeWritten += " "+vid;
+			for (int vid : this.cacheServerData.get(i)) {
+				toBeWritten += " " + vid;
 			}
 		}
-		
+
 		try (PrintWriter writer = new PrintWriter(toWrite)) {
 			writer.print(toBeWritten);
 			writer.close();
@@ -52,6 +52,11 @@ public class VideoSolution implements ISolution {
 	@Override
 	public int getNumCacheServers() {
 		return this.cacheServerData.size();
+	}
+
+	@Override
+	public String toString() {
+		return "VideoSolution [cacheServerData=" + cacheServerData + "]";
 	}
 
 }
