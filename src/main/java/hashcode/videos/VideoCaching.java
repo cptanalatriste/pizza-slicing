@@ -134,12 +134,21 @@ public class VideoCaching implements IProblem {
 					} else {
 						requestSectionStart = endpointSectionStart + endpoint.getCacheConnections() + 1;
 					}
-				} else if (lineCounter >= requestSectionStart) {
+				} else if (requestSectionStart >= 0 && lineCounter >= requestSectionStart) {
 					String[] requestInfo = line.split("\\s+");
+
+					System.out.println("requestSectionStart=" + requestSectionStart);
+					System.out.println("line=" + line);
+					System.out.println("requestInfo=" + requestInfo);
 
 					VideoRequest request = new VideoRequest();
 					request.setId(requestIdentifier);
+					request.setVideo(this.getVideos().get(Integer.parseInt(requestInfo[0])));
+					request.setEndpoint(this.getEndpoints().get(Integer.parseInt(requestInfo[1])));
+					request.setQuantity(Integer.parseInt(requestInfo[2]));
 
+					this.requestDescriptions.add(request);
+					requestIdentifier += 1;
 				}
 
 				lineCounter += 1;
