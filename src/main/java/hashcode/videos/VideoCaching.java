@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import hashcode.mainevent.IProblem;
@@ -17,7 +18,9 @@ public class VideoCaching implements IProblem {
 	private int numberOfCaches;
 	private int cacheSize;
 
-	private List<Endpoint> endpoints;
+	private List<Endpoint> endpoints = new ArrayList<>();
+	private List<Video> videos = new ArrayList<>();
+	private List<VideoRequest> requestDescriptions = new ArrayList<>();
 
 	public int getNumberOfVideos() {
 		return numberOfVideos;
@@ -67,6 +70,22 @@ public class VideoCaching implements IProblem {
 		this.endpoints = endpoints;
 	}
 
+	public List<Video> getVideos() {
+		return videos;
+	}
+
+	public void setVideos(List<Video> videos) {
+		this.videos = videos;
+	}
+
+	public List<VideoRequest> getRequestDescriptions() {
+		return requestDescriptions;
+	}
+
+	public void setRequestDescriptions(List<VideoRequest> requestDescriptions) {
+		this.requestDescriptions = requestDescriptions;
+	}
+
 	@Override
 	public void readFile(File inputFile) throws FileNotFoundException, IOException {
 		try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
@@ -75,15 +94,44 @@ public class VideoCaching implements IProblem {
 			while ((line = reader.readLine()) != null) {
 				if (lineCounter == 0) {
 					String[] characters = line.split("\\s+");
+
+					System.out.println("characters=" + characters);
+
 					this.setNumberOfVideos(Integer.parseInt(characters[0]));
 					this.setNumberOfEndpoints(Integer.parseInt(characters[1]));
-					this.setNumberOfEndpoints(Integer.parseInt(characters[1]));
+					this.setNumberOfRequests(Integer.parseInt(characters[2]));
+					this.setNumberOfCaches(Integer.parseInt(characters[3]));
+					this.setCacheSize(Integer.parseInt(characters[4]));
+				} else if (lineCounter == 1) {
+					String[] videoSizes = line.split("\\s+");
+
+					for (int videoId = 0; videoId < videoSizes.length; videoId += 1) {
+						Video video = new Video();
+						video.setId(videoId);
+						video.setSize(Integer.parseInt(videoSizes[videoId]));
+
+						this.videos.add(video);
+					}
 
 				}
+
+				lineCounter += 1;
 			}
 
 		}
+	}
 
+	@Override
+	public String toString() {
+		return "VideoCaching [numberOfVideos=" + numberOfVideos + ", numberOfEndpoints=" + numberOfEndpoints
+				+ ", numberOfRequests=" + numberOfRequests + ", numberOfCaches=" + numberOfCaches + ", cacheSize="
+				+ cacheSize + ", endpoints=" + endpoints + ", videos=" + videos + ", requestDescriptions="
+				+ requestDescriptions + "]";
+	}
+
+	@Override
+	public int getVideoSize(int videoId) {
+		throw new RuntimeException("Not implemented");
 	}
 
 }

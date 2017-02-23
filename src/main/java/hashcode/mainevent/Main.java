@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
-import hashcode.pizza.Pizza;
-import hashcode.pizza.SlicingBuilder;
-import hashcode.pizza.SlicingScore;
+import hashcode.videos.VideoCaching;
 
 public class Main {
 
@@ -16,16 +14,18 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		for (String fileName : args) {
 
-			IProblem problem = new Pizza();
+			System.out.println("fileName=" + fileName);
+
+			IProblem problem = new VideoCaching();
 			ClassLoader classLoader = Main.class.getClassLoader();
 			problem.readFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName).getFile()));
 
 			System.out.println("problem=" + problem);
 
-			IStrategy strategy = new SlicingBuilder();
+			IStrategy strategy = null;
 			ISolution solution = strategy.getSolution(problem);
 
-			AFitnessFunction fitnessFunction = new SlicingScore();
+			AFitnessFunction fitnessFunction = null;
 			Optional<Double> fitness = fitnessFunction.getFitness(problem, solution);
 
 			if (fitness.isPresent()) {
