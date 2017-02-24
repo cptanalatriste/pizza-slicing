@@ -15,36 +15,38 @@ public class FitnessFunction extends AFitnessFunction {
 
 	@Override
 	protected Double getValidFitness(IProblem problem, ISolution solution) {
-		return 0.0;
-	}
-
-	private Double score(IProblem problem, ISolution solution) {
-		//TODO: Use this
-		Double toReturn = 0.0;
+		// TODO: Use this
+		Double totalSavings = 0.0;
 
 		List<Endpoint> endpoints = problem.getEndpoints();
-		for (VideoRequest vidReq : problem.getRequestDescriptions()) {
-			int serverLatency = vidReq.getEndpoint().getDatacenterLatency();
-			int minLatency = serverLatency;
-			;
-			int cacheConnections = vidReq.getEndpoint().getCacheConnections();
-			for (int i = 0; i < cacheConnections; i++) {
-				if (solution.getVideosForCacheServer(i).contains(vidReq.getVideo().getId())) {
-					if (vidReq.getEndpoint().getCacheLatency()[i] < minLatency) {
-						minLatency = vidReq.getEndpoint().getCacheLatency()[i];
+		int totalRequests = 0;
+
+		for (Endpoint endpoint : endpoints) {
+			int serverLatency = endpoint.getDatacenterLatency();
+			int[] cacheLatencies = endpoint.getCacheLatency();
+			int cacheConnections = endpoint.getCacheConnections();
+
+			for (VideoRequest videoRequest : endpoint.getVideoRequests(problem)) {
+
+				int minLatency = serverLatency;
+				for (int cacheId = 0; cacheId < cacheConnections; cacheId++) {
+					int cacheLatency = cacheLatencies[cacheId];
+
+					if (cacheLatency != 0
+							&& solution.getVideosForCacheServer(cacheId).contains(videoRequest.getVideo().getId())) {
+						if (cacheLatency < minLatency) {
+							minLatency = cacheLatency;
+						}
 					}
 				}
+
+				totalSavings += videoRequest.getQuantity() * (serverLatency - minLatency);
+				totalRequests += videoRequest.getQuantity();
 			}
 
 		}
 
-		for (Endpoint point : endpoints) {
-			int serverLatency = point.getDatacenterLatency();
-			int[] endpointLatency = point.getCacheLatency();
-
-		}
-
-		return 0.0; // Placeholder
+		return Math.floor(totalSavings * 1000 / totalRequests);
 	}
 
 }

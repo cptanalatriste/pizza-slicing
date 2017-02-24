@@ -24,7 +24,7 @@ public class Strategy2 implements IStrategy {
 		});
 
 		VideoSolution solution = new VideoSolution();
-
+ 
 		List<Integer> videosToAdd = new ArrayList<Integer>();
 		for (Endpoint endpoint : endpoints) {
 			List<VideoRequest> thisEndpointRequests = endpoint.getVideoRequests(problem);
