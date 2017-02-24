@@ -190,4 +190,18 @@ public class VideoCaching implements IProblem {
 		return -1;
 	}
 
+	@Override
+	public int getTotalNumberRequest(int endpointId) {
+
+		int numberOfRequests = 0;
+
+		for (VideoRequest request : this.requestDescriptions) {
+			if (request.getEndpoint().getId() == endpointId) {
+				numberOfRequests += request.getQuantity();
+			}
+		}
+
+		return numberOfRequests;
+	}
+	
 }

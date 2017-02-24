@@ -11,12 +11,20 @@ import hashcode.videos.VideoRequest;
 
 public interface IProblem {
 	public void readFile(File f) throws FileNotFoundException, IOException;
+
 	public int getCacheSize();
-	public  int getVideoSize(int videoId);
+
+	public int getVideoSize(int videoId);
+
 	public List<Endpoint> getEndpoints();
+
 	public int getNumberOfVideos();
+
 	public List<Video> getVideos();
+
 	public List<VideoRequest> getRequestDescriptions();
+
 	public int getNumberOfCaches();
-	public int getTotalNumberRequest();
+
+	public int getTotalNumberRequest(int endpointId);
 }

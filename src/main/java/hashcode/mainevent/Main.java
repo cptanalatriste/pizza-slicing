@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import hashcode.videos.FitnessFunction;
-import hashcode.videos.Strategy;
+import hashcode.videos.Strategy2;
 import hashcode.videos.Validator;
 import hashcode.videos.VideoCaching;
 
@@ -23,7 +23,7 @@ public class Main {
 			ClassLoader classLoader = Main.class.getClassLoader();
 			problem.readFile(new File(classLoader.getResource(INPUT_DIRECTORY + fileName).getFile()));
 
-			IStrategy strategy = new Strategy();
+			IStrategy strategy = new Strategy2();
 			ISolution solution = strategy.getSolution(problem);
 
 			AFitnessFunction fitnessFunction = new FitnessFunction(new Validator());

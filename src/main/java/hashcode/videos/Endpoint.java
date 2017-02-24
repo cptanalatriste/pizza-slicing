@@ -1,6 +1,8 @@
 package hashcode.videos;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import hashcode.mainevent.IProblem;
 
@@ -46,18 +48,31 @@ public class Endpoint {
 	public void setCacheLatency(int[] cacheLatency) {
 		this.cacheLatency = cacheLatency;
 	}
-	
-	public int potentialSavings(IProblem problem){
+
+	public List<VideoRequest> getVideoRequests(IProblem problem) {
+		List<VideoRequest> thisEndpointRequests = new ArrayList<VideoRequest>();
+		List<VideoRequest> vidRequests = problem.getRequestDescriptions();
+
+		for (VideoRequest videoRequest : vidRequests) {
+			if (videoRequest.getEndpoint().getId() == this.getId()) {
+				thisEndpointRequests.add(videoRequest);
+			}
+		}
+
+		return thisEndpointRequests;
+	}
+
+	public int potentialSavings(IProblem problem) {
 		int dataCenterLatency = this.getDatacenterLatency();
 		int currentBest = dataCenterLatency;
-		for(int i=0; i<getCacheLatency().length; i++){
-			if(getCacheLatency()[i]!=0){
-				if(currentBest > getCacheLatency()[i]){
-					currentBest= getCacheLatency()[i];
+		for (int i = 0; i < getCacheLatency().length; i++) {
+			if (getCacheLatency()[i] != 0) {
+				if (currentBest > getCacheLatency()[i]) {
+					currentBest = getCacheLatency()[i];
 				}
 			}
 		}
-		return problem.getTotalNumberRequest() * (dataCenterLatency-currentBest);
+		return problem.getTotalNumberRequest(this.id) * (dataCenterLatency - currentBest);
 	}
 
 	@Override

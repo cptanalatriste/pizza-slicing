@@ -1,7 +1,5 @@
 package hashcode.videos;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import hashcode.mainevent.IProblem;
@@ -25,13 +23,6 @@ public class Strategy implements IStrategy {
 		}
 
 		List<Video> vidList = problem.getVideos();
-		Collections.sort(vidList, new Comparator<Video>() {
-
-			@Override
-			public int compare(Video o1, Video o2) {
-				return Integer.compare(o2.getRequests(), o1.getRequests());
-			}
-		});
 
 		for (int cacheID = 0; cacheID < problem.getNumberOfCaches(); cacheID++) {
 			int capacity = problem.getCacheSize();
